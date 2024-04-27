@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 
 	sql2 "github.com/minitauros/swagen/sql"
 	"github.com/minitauros/swagen/swagger"
@@ -15,7 +15,12 @@ import (
 
 type Config struct {
 	DB struct {
-		DSN string
+		Host     string
+		Port     string
+		User     string
+		Password string
+		Dbname   string
+		Schema   string
 	}
 	Service   swagger.ServiceInfo
 	Resources map[string]swagger.Resource // Table name => resource
@@ -30,7 +35,7 @@ func main() {
 		log.Fatal("No config file path given. Use the -conf flag.")
 	}
 
-	configBytes, err := ioutil.ReadFile(*configFilePath)
+	configBytes, err := os.ReadFile(*configFilePath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,10 +46,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db, err := sql.Open("mysql", conf.DB.DSN)
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		conf.DB.Host, conf.DB.Port, conf.DB.User, conf.DB.Password, conf.DB.Dbname)
+
+	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
+	db.Exec("set search_path='" + conf.DB.Schema + "'")
 
 	generator := swagger.Generator{
 		TableService: sql2.NewTableService(db),

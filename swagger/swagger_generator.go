@@ -88,21 +88,23 @@ func getTypeFromSqlColumnType(col *sql.ColumnType) FieldType {
 		return FieldType{"string", map[string]string{
 			"format": "date-time",
 		}}
-	case "DATE":
-		return FieldType{"string", map[string]string{
-			"format": "date",
-		}}
 	case "TIMESTAMP":
 		return FieldType{"string", map[string]string{
 			"format": "date-time",
 		}}
-	case "TINYINT":
-		return FieldType{"boolean", nil}
-	case "SMALLINT":
-		return FieldType{"integer", map[string]string{
-			"format": "int64",
+	case "TIMESTAMPTZ":
+		return FieldType{"string", map[string]string{
+			"format": "date-time",
 		}}
-	case "INT":
+	case "DATE":
+		return FieldType{"string", map[string]string{
+			"format": "date",
+		}}
+	case "SMALLINT", "INT4":
+		return FieldType{"integer", map[string]string{
+			"format": "int32",
+		}}
+	case "INTEGER", "INT8":
 		return FieldType{"integer", map[string]string{
 			"format": "int64",
 		}}
@@ -111,6 +113,10 @@ func getTypeFromSqlColumnType(col *sql.ColumnType) FieldType {
 			"format": "int64",
 		}}
 	case "DECIMAL":
+		return FieldType{"number", map[string]string{
+			"format": "float64",
+		}}
+	case "NUMERIC":
 		return FieldType{"number", map[string]string{
 			"format": "float64",
 		}}
@@ -185,10 +191,10 @@ func (g *Generator) generateResources() ([]Resource, error) {
 
 		fields := make([]DefinitionField, 0, len(cols))
 		for _, col := range cols {
-			isNullable, ok := col.Nullable()
-			if !ok {
-				return nil, errors.New("cannot find out if column is nullable or not")
-			}
+			isNullable, _ := col.Nullable()
+			//if !ok {
+			//				return nil, errors.New("cannot find out if column is nullable or not")
+			//}
 
 			fields = append(fields, DefinitionField{
 				Name:       col.Name(),
