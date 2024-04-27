@@ -256,4 +256,4 @@ definitions:
 ## Tests
 This package does not contain tests. Since it would be foolish to run this directly in any production environment, I will assume that every time this tool might be used, the person using it will check and modify the output (as the tool attow only generates boilerplate YML). On top of that, if invalid YML is generated, other tools (like swagger-codegen) will break, also spotting any defects.
 
-##Initial copyright https://github.com/minitauros/SwaGenPG
+## Initial copyright https://github.com/minitauros/SwaGenPG
