@@ -1,5 +1,5 @@
 # Swagen
-Swagen reads your MySQL database and generates Swagger/OpenAPI YAML from table meta data. This results in a boilerplate swaggerfile (YML) that should probably be edited to completely suit your needs. Use [go-swagger](https://github.com/go-swagger/go-swagger) or [swagger-codegen](https://github.com/swagger-api/swagger-codegen) to generate the API boilerplate Go code.
+Swagen reads your PostgreSQL database and generates Swagger/OpenAPI YAML from table meta data. This results in a boilerplate swaggerfile (YML) that should probably be edited to completely suit your needs. Use [go-swagger](https://github.com/go-swagger/go-swagger) or [swagger-codegen](https://github.com/swagger-api/swagger-codegen) to generate the API boilerplate Go code.
 
 ## Swagger version
 Swagen generates Swagger/OpenAPI 2.0 configuration.
@@ -25,7 +25,12 @@ You will need to create a small config file that Swagen uses to generate YML. Fo
 
 ```
 db:
-  dsn: root:@tcp(127.0.0.1:3306)/db_name
+  host: 192.168.1.1
+  port: 5432
+  user: postgres
+  password: password
+  dbname: db1
+  schema: public
 
 service:
   name: MyService
@@ -64,7 +69,13 @@ Config:
 
 ```
 db:
-  dsn: root:@tcp(0.0.0.0:3306)/products?parseTime=true
+  host: 192.168.1.1
+  port: 5432
+  user: postgres
+  password: password
+  dbname: db1
+  schema: public
+
 
 service:
   name: TestService
@@ -244,3 +255,5 @@ definitions:
 
 ## Tests
 This package does not contain tests. Since it would be foolish to run this directly in any production environment, I will assume that every time this tool might be used, the person using it will check and modify the output (as the tool attow only generates boilerplate YML). On top of that, if invalid YML is generated, other tools (like swagger-codegen) will break, also spotting any defects.
+
+##Initial copyright https://github.com/minitauros/swagen
