@@ -1,27 +1,27 @@
-# Swagen
-Swagen reads your PostgreSQL database and generates Swagger/OpenAPI YAML from table meta data. This results in a boilerplate swaggerfile (YML) that should probably be edited to completely suit your needs. Use [go-swagger](https://github.com/go-swagger/go-swagger) or [swagger-codegen](https://github.com/swagger-api/swagger-codegen) to generate the API boilerplate Go code.
+# SwaGenPG
+SwaGenPG reads your PostgreSQL database and generates Swagger/OpenAPI YAML from table meta data. This results in a boilerplate swaggerfile (YML) that should probably be edited to completely suit your needs. Use [go-swagger](https://github.com/go-swagger/go-swagger) or [swagger-codegen](https://github.com/swagger-api/swagger-codegen) to generate the API boilerplate Go code.
 
 ## Swagger version
-Swagen generates Swagger/OpenAPI 2.0 configuration.
+SwaGenPG generates Swagger/OpenAPI 2.0 configuration.
 
 ## Installation
-Swagen can be acquired and installed by running
+SwaGenPG can be acquired and installed by running
 
 ```
-go get -v -u github.com/minitauros/swagen
+go get -v -u github.com/minitauros/SwaGenPG
 ```
 
 ## How to build
 Or, alternatively, the binary can be manually built:
 
 ```
-go build -o ~/bin/swagen main.go
+go build -o ~/bin/SwaGenPG main.go
 ```
 
 ## Usage
 
 ### Creating a config file
-You will need to create a small config file that Swagen uses to generate YML. For example:
+You will need to create a small config file that SwaGenPG uses to generate YML. For example:
 
 ```
 db:
@@ -46,11 +46,11 @@ resources:
   # Continue listing all the tables you want to generate Swagger YAML for.
 ```
 
-### Running Swagen
+### Running SwaGenPG
 Swagger YML can then be generated using the following command:
 
 ```
-swagen -conf=conf.yml > swagger.yml
+SwaGenPG -conf=conf.yml > swagger.yml
 ```
 
 ### Example
@@ -256,4 +256,4 @@ definitions:
 ## Tests
 This package does not contain tests. Since it would be foolish to run this directly in any production environment, I will assume that every time this tool might be used, the person using it will check and modify the output (as the tool attow only generates boilerplate YML). On top of that, if invalid YML is generated, other tools (like swagger-codegen) will break, also spotting any defects.
 
-##Initial copyright https://github.com/minitauros/swagen
+##Initial copyright https://github.com/minitauros/SwaGenPG
